@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="3dp"
+    app:cardBackgroundColor="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="18dp">
+
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Paracetamol"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/darkGreenText" />
+
+        <TextView
+            android:id="@+id/txtDosage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dosage: 500mg"
+            android:textSize="14sp"
+            android:textColor="@color/softGray"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/txtTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time: 08:00"
+            android:textSize="14sp"
+            android:textColor="@color/softGray"
+            android:layout_marginTop="6dp" />
+
+        <TextView
+            android:id="@+id/txtPills"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pills Left: 20"
+            android:textSize="14sp"
+            android:textColor="@color/softGray"
+            android:layout_marginTop="6dp" />
+
+        <TextView
+            android:id="@+id/txtExpiry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Expiry: 12/10/2026"
+            android:textSize="14sp"
+            android:textColor="@color/darkGreen"
+            android:layout_marginTop="6dp" />
+
+        <Button
+            android:id="@+id/btnEditMedicine"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/button_green_bg"
+            android:backgroundTint="@null"
+            android:text="Edit"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btnDeleteMedicine"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/button_green_bg"
+            android:backgroundTint="@null"
+            android:text="Delete"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
