@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/lightBackground">
 
-    <!-- المحتوى -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,158 +17,148 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Welcome -->
             <TextView
+                android:id="@+id/txtWelcomeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hello, User"
-                android:textSize="14sp"
-                android:textColor="@color/softGray"
-                android:layout_marginTop="12dp"/>
+                android:textSize="16sp"
+                android:textColor="@android:color/darker_gray" />
 
-            <!-- Title -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Medicine Reminder"
-                android:textSize="28sp"
+                android:textSize="32sp"
                 android:textStyle="bold"
-                android:textColor="@color/darkGreenText"
-                android:layout_marginTop="12dp"/>
+                android:textColor="@color/darkGreen"
+                android:layout_marginTop="10dp" />
 
-            <!-- Subtitle -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Stay on top of your medication schedule."
-                android:textSize="15sp"
-                android:textColor="@color/softGray"
-                android:layout_marginBottom="20dp"/>
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="20dp" />
 
-            <!-- Card 1 -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardReminder"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="24dp"
-                app:cardBackgroundColor="@color/darkGreen"
-                app:cardElevation="6dp">
+                android:layout_height="120dp"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="@color/darkGreen">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="20dp"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Set Reminder"
-                        android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/white" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Manage your reminders easily"
-                        android:textColor="#EAEAEA"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                        android:textColor="@android:color/white" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card 2 -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardMedicines"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="24dp"
-                app:cardBackgroundColor="@color/darkGreen"
-                app:cardElevation="6dp">
+                android:layout_height="120dp"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="@color/darkGreen">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="20dp"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="View Medications"
-                        android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/white" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="See all added medicines"
-                        android:textColor="#EAEAEA"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                        android:textColor="@android:color/white" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card 3 -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardHistory"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="120dp"
                 android:layout_marginBottom="120dp"
-                app:cardCornerRadius="24dp"
-                app:cardBackgroundColor="@color/darkGreen"
-                app:cardElevation="6dp">
+                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="@color/darkGreen">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="20dp"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Medication History"
-                        android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:textStyle="bold"/>
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/white" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Track previous medication records"
-                        android:textColor="#EAEAEA"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp"
+                        android:textColor="@android:color/white" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bottom Navigation داخل كرت -->
     <androidx.cardview.widget.CardView
         android:id="@+id/navCard"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:layout_margin="12dp"
         app:cardCornerRadius="25dp"
         app:cardElevation="10dp"
-        app:cardBackgroundColor="@color/white">
+        app:cardBackgroundColor="@android:color/white">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            app:itemIconTint="@color/bottom_nav_color"
-            app:itemTextColor="@color/bottom_nav_color"
-            app:labelVisibilityMode="unlabeled"
+            app:itemIconTint="@color/darkGreen"
+            app:itemTextColor="@color/darkGreen"
+            app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_menu" />
 
     </androidx.cardview.widget.CardView>

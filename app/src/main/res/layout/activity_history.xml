@@ -1,84 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/lightBackground"
-    android:padding="20dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Medication History"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="@color/darkGreenText"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Track your medicine records"
-        android:textSize="15sp"
-        android:textColor="@color/softGray"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="20dp" />
-
-    <TextView
-        android:id="@+id/txtMedicineName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Medicine Name"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/darkGreenText" />
-
-    <TextView
-        android:id="@+id/txtMedicineTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Time: --"
-        android:textSize="15sp"
-        android:textColor="@color/softGray"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="20dp" />
+    android:background="@color/lightBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="20dp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <Button
-            android:id="@+id/btnTaken"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_green_bg"
-            android:backgroundTint="@null"
-            android:text="Taken"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medication History"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/darkGreenText"
+            android:layout_marginTop="10dp" />
 
-        <Button
-            android:id="@+id/btnMissed"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Track your medicine records"
+            android:textSize="15sp"
+            android:textColor="@color/softGray"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:id="@+id/txtMedicineName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medicine Name"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/darkGreenText" />
+
+        <TextView
+            android:id="@+id/txtMedicineTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time: --"
+            android:textSize="15sp"
+            android:textColor="@color/softGray"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
+
+            <Button
+                android:id="@+id/btnTaken"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_green_bg"
+                android:backgroundTint="@null"
+                android:text="Taken"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btnMissed"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:backgroundTint="#C94C4C"
+                android:text="Missed"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/listViewHistory"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginStart="10dp"
-            android:backgroundTint="#C94C4C"
-            android:text="Missed"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10dp" />
+
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/listViewHistory"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10dp" />
+        android:layout_height="80dp"
+        android:background="@android:color/white"
+        app:itemIconTint="@color/darkGreen"
+        app:itemTextColor="@color/darkGreen"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_menu" />
 
 </LinearLayout>

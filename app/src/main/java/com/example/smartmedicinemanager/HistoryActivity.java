@@ -1,5 +1,6 @@
 package com.example.smartmedicinemanager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -67,6 +70,44 @@ public class HistoryActivity extends AppCompatActivity {
                 Toast.makeText(this, "Marked as Missed", Toast.LENGTH_SHORT).show();
                 loadHistory();
             }
+        });
+
+        setupBottomNavigation();
+    }
+
+    private void setupBottomNavigation() {
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
+
+        bottomNav.setSelectedItemId(R.id.nav_history);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                startActivity(new Intent(HistoryActivity.this, MainActivity.class));
+                finish();
+                return true;
+
+            } else if (id == R.id.nav_add) {
+                startActivity(new Intent(HistoryActivity.this, AddMedicineActivity.class));
+                finish();
+                return true;
+
+            } else if (id == R.id.nav_medicine) {
+                startActivity(new Intent(HistoryActivity.this, ViewMedicinesActivity.class));
+                finish();
+                return true;
+
+            } else if (id == R.id.nav_history) {
+                return true;
+
+            } else if (id == R.id.nav_profile) {
+                startActivity(new Intent(HistoryActivity.this, ProfileActivity.class));
+                finish();
+                return true;
+            }
+
+            return false;
         });
     }
 

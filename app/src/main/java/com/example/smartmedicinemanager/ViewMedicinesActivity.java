@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.List;
 
 public class ViewMedicinesActivity extends AppCompatActivity {
@@ -28,6 +30,7 @@ public class ViewMedicinesActivity extends AppCompatActivity {
         listView = findViewById(R.id.listViewMedicines);
 
         loadMedicines();
+        setupBottomNavigation();
     }
 
     @Override
@@ -39,6 +42,42 @@ public class ViewMedicinesActivity extends AppCompatActivity {
     private void loadMedicines() {
         List<Medicine> medicines = databaseHelper.getAllMedicines();
         listView.setAdapter(new MedicineAdapter(medicines));
+    }
+
+    private void setupBottomNavigation() {
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
+
+        bottomNav.setSelectedItemId(R.id.nav_medicine);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                startActivity(new Intent(ViewMedicinesActivity.this, MainActivity.class));
+                finish();
+                return true;
+
+            } else if (id == R.id.nav_add) {
+                startActivity(new Intent(ViewMedicinesActivity.this, AddMedicineActivity.class));
+                finish();
+                return true;
+
+            } else if (id == R.id.nav_medicine) {
+                return true;
+
+            } else if (id == R.id.nav_history) {
+                startActivity(new Intent(ViewMedicinesActivity.this, HistoryActivity.class));
+                finish();
+                return true;
+
+            } else if (id == R.id.nav_profile) {
+                startActivity(new Intent(ViewMedicinesActivity.this, ProfileActivity.class));
+                finish();
+                return true;
+            }
+
+            return false;
+        });
     }
 
     private class MedicineAdapter extends BaseAdapter {

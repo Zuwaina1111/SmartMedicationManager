@@ -1,45 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/lightBackground"
-    android:padding="20dp">
+    android:background="@color/lightBackground">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="My Medicines"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:textColor="@color/darkGreenText" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Manage your daily medications"
-        android:textSize="15sp"
-        android:textColor="@color/softGray"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="18dp" />
-
-    <ListView
-        android:id="@+id/listViewMedicines"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/lightBackground"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="12dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <Button
-        android:id="@+id/btnDeleteMedicine"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Medicines"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/darkGreenText" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage your daily medications"
+            android:textSize="15sp"
+            android:textColor="@color/softGray"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="18dp" />
+
+        <ListView
+            android:id="@+id/listViewMedicines"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/lightBackground"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="12dp" />
+
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/button_green_bg"
-        android:backgroundTint="@null"
-        android:text="Delete"
-        android:textAllCaps="false"
-        android:textColor="@color/white" />
+        android:layout_height="80dp"
+        android:background="@android:color/white"
+        app:itemIconTint="@color/darkGreen"
+        app:itemTextColor="@color/darkGreen"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_menu" />
 
 </LinearLayout>

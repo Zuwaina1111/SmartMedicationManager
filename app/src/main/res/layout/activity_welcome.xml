@@ -2,42 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     android:background="#FFFFFF"
+    android:gravity="center"
+    android:orientation="vertical"
     android:padding="24dp">
 
     <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/app"
+        android:layout_marginBottom="20dp"
         android:contentDescription="App Logo"
-        android:layout_marginBottom="20dp"/>
+        android:src="@drawable/app" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:text="Welcome"
-        android:textSize="24sp"
-        android:textStyle="bold"
         android:textColor="#1B5E20"
-        android:layout_marginBottom="30dp"/>
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
         android:backgroundTint="#1B5E20"
-        android:textColor="#000000"/>
+        android:text="Login"
+        android:textColor="#000000" />
 
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
         android:layout_marginTop="16dp"
         android:backgroundTint="#A5D6A7"
-        android:textColor="#000000"/>
+        android:text="Register"
+        android:textColor="#000000" />
 
 </LinearLayout>
