@@ -20,6 +20,7 @@ public class ViewMedicinesActivity extends AppCompatActivity {
 
     private DatabaseHelper databaseHelper;
     private ListView listView;
+    private String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,9 @@ public class ViewMedicinesActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(this);
         listView = findViewById(R.id.listViewMedicines);
 
+        userEmail = getSharedPreferences("UserData", MODE_PRIVATE)
+                .getString("email", "");
+
         loadMedicines();
         setupBottomNavigation();
     }
@@ -36,11 +40,15 @@ public class ViewMedicinesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        userEmail = getSharedPreferences("UserData", MODE_PRIVATE)
+                .getString("email", "");
+
         loadMedicines();
     }
 
     private void loadMedicines() {
-        List<Medicine> medicines = databaseHelper.getAllMedicines();
+        List<Medicine> medicines = databaseHelper.getAllMedicines(userEmail);
         listView.setAdapter(new MedicineAdapter(medicines));
     }
 
@@ -137,12 +145,15 @@ public class ViewMedicinesActivity extends AppCompatActivity {
 
             btnEdit.setOnClickListener(v -> {
                 Intent intent = new Intent(ViewMedicinesActivity.this, AddMedicineActivity.class);
+
                 intent.putExtra("id", medicine.getId());
                 intent.putExtra("name", medicine.getName());
                 intent.putExtra("dosage", medicine.getDosage());
                 intent.putExtra("time", medicine.getTime());
                 intent.putExtra("pillCount", medicine.getPillCount());
                 intent.putExtra("expiryDate", medicine.getExpiryDate());
+                intent.putExtra("userEmail", medicine.getUserEmail());
+
                 startActivity(intent);
             });
 

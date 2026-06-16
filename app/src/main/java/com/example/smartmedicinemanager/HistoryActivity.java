@@ -13,15 +13,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class HistoryActivity extends AppCompatActivity {
 
     private DatabaseHelper databaseHelper;
-    private Medicine currentMedicine;
     private ListView listViewHistory;
+    private TextView txtMedicineName, txtMedicineTime;
+    private Button btnTaken, btnMissed;
+
+    private String medicineName = "Medicine";
+    private String medicineTime = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,89 +34,54 @@ public class HistoryActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(this);
 
-        TextView txtMedicineName = findViewById(R.id.txtMedicineName);
-        TextView txtMedicineTime = findViewById(R.id.txtMedicineTime);
-        Button btnTaken = findViewById(R.id.btnTaken);
-        Button btnMissed = findViewById(R.id.btnMissed);
         listViewHistory = findViewById(R.id.listViewHistory);
+        txtMedicineName = findViewById(R.id.txtMedicineName);
+        txtMedicineTime = findViewById(R.id.txtMedicineTime);
+        btnTaken = findViewById(R.id.btnTaken);
+        btnMissed = findViewById(R.id.btnMissed);
 
-        List<Medicine> medicines = databaseHelper.getAllMedicines();
+        String nameExtra = getIntent().getStringExtra("name");
+        String timeExtra = getIntent().getStringExtra("time");
 
-        if (!medicines.isEmpty()) {
-            currentMedicine = medicines.get(0);
-            txtMedicineName.setText(currentMedicine.getName());
-            txtMedicineTime.setText("Time: " + currentMedicine.getTime());
-        } else {
-            txtMedicineName.setText("No medicine found");
-            txtMedicineTime.setText("Time: --");
-        }
+        if (nameExtra != null && !nameExtra.isEmpty()) medicineName = nameExtra;
+        if (timeExtra != null) medicineTime = timeExtra;
+
+        txtMedicineName.setText(medicineName);
+        txtMedicineTime.setText("Time: " + medicineTime);
+
+        btnTaken.setOnClickListener(v -> saveStatus("Taken"));
+        btnMissed.setOnClickListener(v -> saveStatus("Missed"));
 
         loadHistory();
-
-        btnTaken.setOnClickListener(v -> {
-            if (currentMedicine != null) {
-                int newCount = currentMedicine.getPillCount() > 0
-                        ? currentMedicine.getPillCount() - 1
-                        : 0;
-
-                databaseHelper.updatePillCount(currentMedicine.getId(), newCount);
-                databaseHelper.insertHistory(currentMedicine.getName(), "Taken", getCurrentTime());
-
-                Toast.makeText(this, "Marked as Taken", Toast.LENGTH_SHORT).show();
-                loadHistory();
-            }
-        });
-
-        btnMissed.setOnClickListener(v -> {
-            if (currentMedicine != null) {
-                databaseHelper.insertHistory(currentMedicine.getName(), "Missed", getCurrentTime());
-
-                Toast.makeText(this, "Marked as Missed", Toast.LENGTH_SHORT).show();
-                loadHistory();
-            }
-        });
-
         setupBottomNavigation();
     }
 
-    private void setupBottomNavigation() {
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
+    private void saveStatus(String status) {
+        String currentTime = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(new Date());
 
-        bottomNav.setSelectedItemId(R.id.nav_history);
+        String userEmail = getSharedPreferences("UserData", MODE_PRIVATE)
+                .getString("email", "");
 
-        bottomNav.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
+        boolean inserted = databaseHelper.insertHistory(
+                medicineName,
+                status,
+                currentTime,
+                userEmail
+        );
 
-            if (id == R.id.nav_home) {
-                startActivity(new Intent(HistoryActivity.this, MainActivity.class));
-                finish();
-                return true;
-
-            } else if (id == R.id.nav_add) {
-                startActivity(new Intent(HistoryActivity.this, AddMedicineActivity.class));
-                finish();
-                return true;
-
-            } else if (id == R.id.nav_medicine) {
-                startActivity(new Intent(HistoryActivity.this, ViewMedicinesActivity.class));
-                finish();
-                return true;
-
-            } else if (id == R.id.nav_history) {
-                return true;
-
-            } else if (id == R.id.nav_profile) {
-                startActivity(new Intent(HistoryActivity.this, ProfileActivity.class));
-                finish();
-                return true;
-            }
-
-            return false;
-        });
+        if (inserted) {
+            Toast.makeText(this, "Saved as " + status, Toast.LENGTH_SHORT).show();
+            loadHistory();
+        } else {
+            Toast.makeText(this, "Failed to save history", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void loadHistory() {
-        List<String> historyList = databaseHelper.getAllHistory();
+        String userEmail = getSharedPreferences("UserData", MODE_PRIVATE)
+                .getString("email", "");
+
+        ArrayList<String> historyList = databaseHelper.getAllHistory(userEmail);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
@@ -123,8 +92,34 @@ public class HistoryActivity extends AppCompatActivity {
         listViewHistory.setAdapter(adapter);
     }
 
-    private String getCurrentTime() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-        return sdf.format(new Date());
+    private void setupBottomNavigation() {
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
+        bottomNav.setSelectedItemId(R.id.nav_history);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+                return true;
+            } else if (id == R.id.nav_add) {
+                startActivity(new Intent(this, AddMedicineActivity.class));
+                finish();
+                return true;
+            } else if (id == R.id.nav_medicine) {
+                startActivity(new Intent(this, ViewMedicinesActivity.class));
+                finish();
+                return true;
+            } else if (id == R.id.nav_history) {
+                return true;
+            } else if (id == R.id.nav_profile) {
+                startActivity(new Intent(this, ProfileActivity.class));
+                finish();
+                return true;
+            }
+
+            return false;
+        });
     }
 }

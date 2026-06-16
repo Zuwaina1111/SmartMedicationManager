@@ -11,8 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText etLoginEmail;
-    private EditText etLoginPassword;
+    private EditText etLoginEmail, etLoginPassword;
     private Button btnLogin;
     private TextView txtSignUp;
     private DatabaseHelper databaseHelper;
@@ -26,50 +25,36 @@ public class LoginActivity extends AppCompatActivity {
 
         etLoginEmail = findViewById(R.id.etEmail);
         etLoginPassword = findViewById(R.id.etPassword);
-
         btnLogin = findViewById(R.id.btnLogin);
         txtSignUp = findViewById(R.id.txtSignUp);
 
         btnLogin.setOnClickListener(v -> {
-
             String email = etLoginEmail.getText().toString().trim();
             String password = etLoginPassword.getText().toString().trim();
 
             if (email.isEmpty() || password.isEmpty()) {
-
-                Toast.makeText(this,
-                        "Please enter email and password",
-                        Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             boolean exists = databaseHelper.checkUser(email, password);
 
             if (exists) {
+                getSharedPreferences("UserData", MODE_PRIVATE)
+                        .edit()
+                        .putString("email", email)
+                        .apply();
 
-                Toast.makeText(this,
-                        "Login Successful",
-                        Toast.LENGTH_SHORT).show();
-
-                startActivity(new Intent(
-                        LoginActivity.this,
-                        MainActivity.class));
-
+                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 finish();
-
             } else {
-
-                Toast.makeText(this,
-                        "Invalid email or password",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
             }
         });
 
         txtSignUp.setOnClickListener(v ->
-                startActivity(new Intent(
-                        LoginActivity.this,
-                        RegisterActivity.class))
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class))
         );
     }
 }

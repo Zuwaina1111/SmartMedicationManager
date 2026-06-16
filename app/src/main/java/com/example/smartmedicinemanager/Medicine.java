@@ -7,14 +7,16 @@ public class Medicine {
     private String time;
     private int pillCount;
     private String expiryDate;
+    private String userEmail;
 
-    public Medicine(int id, String name, String dosage, String time, int pillCount, String expiryDate) {
+    public Medicine(int id, String name, String dosage, String time, int pillCount, String expiryDate, String userEmail) {
         this.id = id;
         this.name = name;
         this.dosage = dosage;
         this.time = time;
         this.pillCount = pillCount;
         this.expiryDate = expiryDate;
+        this.userEmail = userEmail;
     }
 
     public int getId() { return id; }
@@ -23,6 +25,7 @@ public class Medicine {
     public String getTime() { return time; }
     public int getPillCount() { return pillCount; }
     public String getExpiryDate() { return expiryDate; }
+    public String getUserEmail() { return userEmail; }
 
     public void setId(int id) { this.id = id; }
 }

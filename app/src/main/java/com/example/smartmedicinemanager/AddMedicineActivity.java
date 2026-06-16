@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
@@ -29,14 +29,8 @@ public class AddMedicineActivity extends AppCompatActivity {
 
     private DatabaseHelper databaseHelper;
 
-    private EditText etMedicineName;
-    private EditText etDosage;
-    private EditText etTime;
-    private EditText etPillCount;
-    private EditText etExpiryDate;
-
+    private EditText etMedicineName, etDosage, etTime, etPillCount, etExpiryDate;
     private int medicineId = -1;
-
     private ActivityResultLauncher<Void> cameraLauncher;
 
     @Override
@@ -55,7 +49,6 @@ public class AddMedicineActivity extends AppCompatActivity {
         Button btnScanOCR = findViewById(R.id.btnScanOCR);
         Button btnSaveMedicine = findViewById(R.id.btnSaveMedicine);
 
-        // Camera Launcher
         cameraLauncher = registerForActivityResult(
                 new ActivityResultContracts.TakePicturePreview(),
                 bitmap -> {
@@ -75,38 +68,25 @@ public class AddMedicineActivity extends AppCompatActivity {
             etTime.setText(getIntent().getStringExtra("time"));
             etPillCount.setText(String.valueOf(getIntent().getIntExtra("pillCount", 0)));
             etExpiryDate.setText(getIntent().getStringExtra("expiryDate"));
-
             btnSaveMedicine.setText("Update Medicine");
-
         }
 
         etTime.setOnClickListener(v -> showTimePicker());
-
         etExpiryDate.setOnClickListener(v -> showDatePicker());
 
-        // OCR Button
         btnScanOCR.setOnClickListener(v -> {
-
-            if (checkSelfPermission(Manifest.permission.CAMERA)
-                    == PackageManager.PERMISSION_GRANTED) {
-
+            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 cameraLauncher.launch(null);
-
             } else {
-
-                requestPermissions(
-                        new String[]{Manifest.permission.CAMERA},
-                        100
-                );
+                requestPermissions(new String[]{Manifest.permission.CAMERA}, 100);
             }
         });
 
-        // Save Button
         btnSaveMedicine.setOnClickListener(v -> saveOrUpdateMedicine());
+
         setupBottomNavigation();
     }
 
-    // Permission Result
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
@@ -115,35 +95,23 @@ public class AddMedicineActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         if (requestCode == 100) {
-
-            if (grantResults.length > 0 &&
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 cameraLauncher.launch(null);
-
             } else {
-
-                Toast.makeText(this,
-                        "Camera permission denied",
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    // OCR Function
     private void runOCRFromBitmap(Bitmap bitmap) {
-
         InputImage image = InputImage.fromBitmap(bitmap, 0);
 
         TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
                 .process(image)
-
                 .addOnSuccessListener(result -> {
-
                     String text = result.getText().trim();
 
                     if (!text.isEmpty()) {
-
                         String[] lines = text.split("\\n");
 
                         if (lines.length > 0) {
@@ -151,7 +119,6 @@ public class AddMedicineActivity extends AppCompatActivity {
                         }
 
                         for (String line : lines) {
-
                             String lower = line.toLowerCase();
 
                             if (lower.contains("mg")
@@ -164,61 +131,40 @@ public class AddMedicineActivity extends AppCompatActivity {
                             }
                         }
 
-                        Toast.makeText(this,
-                                "OCR text extracted",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "OCR text extracted", Toast.LENGTH_SHORT).show();
 
                     } else {
-
-                        Toast.makeText(this,
-                                "No text found",
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "No text found", Toast.LENGTH_SHORT).show();
                     }
                 })
-
                 .addOnFailureListener(e ->
-
-                        Toast.makeText(this,
-                                "OCR failed",
-                                Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "OCR failed", Toast.LENGTH_SHORT).show()
                 );
     }
 
-    // Save or Update Medicine
     private void saveOrUpdateMedicine() {
-
         String name = etMedicineName.getText().toString().trim();
         String dosage = etDosage.getText().toString().trim();
         String time = etTime.getText().toString().trim();
         String pillsText = etPillCount.getText().toString().trim();
         String expiry = etExpiryDate.getText().toString().trim();
 
-        if (name.isEmpty()
-                || dosage.isEmpty()
-                || time.isEmpty()
-                || pillsText.isEmpty()) {
-
-            Toast.makeText(this,
-                    "Please fill all required fields",
-                    Toast.LENGTH_SHORT).show();
-
+        if (name.isEmpty() || dosage.isEmpty() || time.isEmpty() || pillsText.isEmpty()) {
+            Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
         int pills;
 
         try {
-
             pills = Integer.parseInt(pillsText);
-
         } catch (NumberFormatException e) {
-
-            Toast.makeText(this,
-                    "Invalid pill count",
-                    Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this, "Invalid pill count", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        String userEmail = getSharedPreferences("UserData", MODE_PRIVATE)
+                .getString("email", "");
 
         Medicine medicine = new Medicine(
                 medicineId,
@@ -226,53 +172,34 @@ public class AddMedicineActivity extends AppCompatActivity {
                 dosage,
                 time,
                 pills,
-                expiry
+                expiry,
+                userEmail
         );
 
         boolean success;
 
         if (medicineId == -1) {
-
             success = databaseHelper.insertMedicine(medicine);
-
         } else {
-
             success = databaseHelper.updateMedicine(medicine);
         }
 
         if (success) {
-
             scheduleMedicineReminder(name, time);
-
-            Toast.makeText(this,
-                    "Medicine saved successfully",
-                    Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this, "Medicine saved successfully", Toast.LENGTH_SHORT).show();
             finish();
-
         } else {
-
-            Toast.makeText(this,
-                    "Operation failed",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Operation failed", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // Time Picker
     private void showTimePicker() {
-
         Calendar calendar = Calendar.getInstance();
 
         TimePickerDialog dialog = new TimePickerDialog(
                 this,
                 (view, hourOfDay, minute) ->
-
-                        etTime.setText(
-                                String.format("%02d:%02d",
-                                        hourOfDay,
-                                        minute)
-                        ),
-
+                        etTime.setText(String.format("%02d:%02d", hourOfDay, minute)),
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
                 true
@@ -281,19 +208,13 @@ public class AddMedicineActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    // Date Picker
     private void showDatePicker() {
-
         Calendar calendar = Calendar.getInstance();
 
         DatePickerDialog dialog = new DatePickerDialog(
                 this,
                 (view, year, month, dayOfMonth) ->
-
-                        etExpiryDate.setText(
-                                dayOfMonth + "/" + (month + 1) + "/" + year
-                        ),
-
+                        etExpiryDate.setText(dayOfMonth + "/" + (month + 1) + "/" + year),
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
@@ -302,9 +223,7 @@ public class AddMedicineActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    // Reminder Notification
     private void scheduleMedicineReminder(String medicineName, String time) {
-
         String[] parts = time.split(":");
 
         if (parts.length != 2) return;
@@ -313,7 +232,6 @@ public class AddMedicineActivity extends AppCompatActivity {
         int minute = Integer.parseInt(parts[1]);
 
         Calendar calendar = Calendar.getInstance();
-
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
@@ -323,69 +241,55 @@ public class AddMedicineActivity extends AppCompatActivity {
         }
 
         Intent intent = new Intent(this, ReminderReceiver.class);
-
         intent.putExtra("medicineName", medicineName);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 this,
                 (int) System.currentTimeMillis(),
                 intent,
-                PendingIntent.FLAG_UPDATE_CURRENT |
-                        PendingIntent.FLAG_IMMUTABLE
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
         );
 
-        AlarmManager alarmManager =
-                (AlarmManager) getSystemService(ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         try {
-
             alarmManager.setExact(
                     AlarmManager.RTC_WAKEUP,
                     calendar.getTimeInMillis(),
                     pendingIntent
             );
-
         } catch (SecurityException e) {
-
-            Toast.makeText(this,
-                    "Alarm permission not allowed",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Alarm permission not allowed", Toast.LENGTH_SHORT).show();
         }
     }
-    private void setupBottomNavigation() {
 
+    private void setupBottomNavigation() {
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
 
         bottomNav.setSelectedItemId(R.id.nav_add);
 
         bottomNav.setOnItemSelectedListener(item -> {
-
             int id = item.getItemId();
 
             if (id == R.id.nav_home) {
-
                 startActivity(new Intent(AddMedicineActivity.this, MainActivity.class));
                 finish();
                 return true;
 
             } else if (id == R.id.nav_add) {
-
                 return true;
 
             } else if (id == R.id.nav_medicine) {
-
                 startActivity(new Intent(AddMedicineActivity.this, ViewMedicinesActivity.class));
                 finish();
                 return true;
 
             } else if (id == R.id.nav_history) {
-
                 startActivity(new Intent(AddMedicineActivity.this, HistoryActivity.class));
                 finish();
                 return true;
 
             } else if (id == R.id.nav_profile) {
-
                 startActivity(new Intent(AddMedicineActivity.this, ProfileActivity.class));
                 finish();
                 return true;
